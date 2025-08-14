@@ -3,7 +3,6 @@ import './App.css'
 
 function App() {
 
-  const [active , setActive] = useState(false);
   const [order , setOrder] = useState([]);
 
   
@@ -15,10 +14,56 @@ function App() {
 
   const activateCell = (index) => {
 
-    
-    setOrder([...order,index]); //add the new index to the order
-    //setActive(true);
+    const newOrder = [...order,index];
+    setOrder(newOrder); //add the new index to the order
+    console.log(newOrder)
+
+    //if last cell reached then initiate de-activation logic
+    if(newOrder.length === grid.flat(1).filter(Boolean).length){
+      deactivateCells();
+    }
   }
+
+
+  const deactivateCells = () => {
+
+    console.log("deactivating started")
+    const timer = setInterval(() => {
+      
+      setOrder((origOrder) => {
+        
+        //Method 1 - Making a copy of original order and altering the copy
+        const newOrder = [...origOrder];
+        newOrder.pop();
+
+        if(newOrder.length === 0){
+            clearInterval(timer);
+          }
+
+          
+          return newOrder;
+        })
+
+
+
+        //Method 2 - altering the original 'order' state. This won't work because of below reason
+      // order.pop(); ==>> You can't directly alter the state, it can only be updated via setter function
+
+      //   if(order.length === 0){
+      //     console.log("no more deactivating")
+      //     clearInterval(timer);
+      //   }
+
+      //   console.log(order)
+      //   return order;
+      // })
+      
+
+    },500)
+
+  }
+
+
 
   return(
     <div className='wrapper'>

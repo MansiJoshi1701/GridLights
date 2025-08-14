@@ -1,0 +1,15 @@
+Ques - Inside the deactivateCells() function, why does Method 1 (taking a copy or 'order' state) work 
+but not Method 2 (directly altering the 'order' state) ?
+
+Ans - In React, state updates should be immutable. This means we should not directly modify the existing
+state object/array. Instead, we should create a new object or array with the desired changes and then
+pass that new one to the state setter function ('setOrder' in this case).
+
+When we use 'order.pop()', we are directly changing the order array itself.
+React performs a shallow comparison of the old state and the new state.
+If the reference to the array in memory hasn't changed, React thinks "nothing has changed" and
+won't trigger a re-render, even though the contents of the array have been altered.
+
+In Method 1, you correctly used origOrder.slice() to create a shallow copy of the array. 
+This creates a new array with a different memory reference. When you then call setOrder with this
+new array, React detects the change in the reference and triggers a re-render.
