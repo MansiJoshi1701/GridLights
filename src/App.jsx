@@ -16,7 +16,7 @@ function App() {
 
     const newOrder = [...order,index];
     setOrder(newOrder); //add the new index to the order
-    console.log(newOrder)
+    
 
     //if last cell reached then initiate de-activation logic
     if(newOrder.length === grid.flat(1).filter(Boolean).length){
@@ -27,7 +27,6 @@ function App() {
 
   const deactivateCells = () => {
 
-    console.log("deactivating started")
     const timer = setInterval(() => {
       
       setOrder((origOrder) => {
@@ -75,11 +74,13 @@ function App() {
           return val ? (
             <button
               key={index}
+              aria-label={`Cell ${index}`}
               onClick={() => activateCell(index)}
+              disabled={order.includes(index)}
               className={order.includes(index) ? 'cell cell-activated' : 'cell'}
             /> 
           ) : (
-            <span></span>
+            <span key={index} />
           );
         })}
       </div>
